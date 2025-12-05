@@ -1,3 +1,28 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+import { authGuard } from './guards/auth.guard';
+
+export const routes: Routes = [
+  {
+    path: 'inicio-sesion',
+    loadComponent: () => import('./pages/auth/inicio-sesion/inicio-sesion')
+      .then(m => m.InicioSesion),
+    title: 'Inicio Sesión'
+  },
+  {
+    path: 'zona-area',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/operaciones/zona-area/zona-area')
+      .then(m => m.ZonaArea),
+    title: 'Zona - Área'
+  },
+  {
+    path: '',
+    redirectTo: '/inicio-sesion',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '/inicio-sesion'
+  }
+];
