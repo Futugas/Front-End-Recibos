@@ -27,7 +27,7 @@ export class AuthService {
   private encodePassword(password: string): string {
     const salt = 'recibosApp2025_';
     const combined = salt + password + salt;
-    return btoa(combined); // Base64 encode
+    return btoa(combined);
   }
 
   // -------------------------------
