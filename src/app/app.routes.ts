@@ -17,6 +17,13 @@ export const routes: Routes = [
     title: 'Zona - Área'
   },
   {
+    path: 'registro',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/operaciones/registro/registro')
+      .then(m => m.Registro),
+    title: 'Registro'
+  },
+  {
     path: '',
     redirectTo: '/inicio-sesion',
     pathMatch: 'full'

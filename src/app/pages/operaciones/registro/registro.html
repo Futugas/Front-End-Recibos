@@ -1,0 +1,222 @@
+<div class="min-h-screen bg-linear-to-br from-blue-600 via-blue-500 to-orange-500">
+  <!-- Header -->
+  <app-header />
+
+  <!-- Main Content -->
+  <div class="flex items-center justify-center p-4 py-12">
+    <div
+      class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-6xl border border-white/20"
+    >
+      <!-- Title -->
+      <div class="text-center mb-8">
+        <div
+          class="w-20 h-20 bg-linear-to-br from-blue-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg"
+        >
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        </div>
+
+        <h1
+          class="text-3xl font-bold bg-linear-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-2"
+        >
+          Operaciones
+        </h1>
+        <p class="text-gray-600">Registra el cargo a usuario</p>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="handleSubmit()">
+        <!-- Table -->
+        <div class="overflow-x-auto rounded-lg border-2 border-gray-300 shadow-lg">
+          <table class="w-full border-collapse">
+            <!-- Table Header -->
+            <thead>
+              <tr class="bg-linear-to-r from-blue-500 to-orange-500">
+                <th class="px-6 py-4 text-left text-sm font-bold text-white border-r border-white/30">
+                  Concepto
+                </th>
+                <th class="px-6 py-4 text-left text-sm font-bold text-white border-r border-white/30">
+                  Nombre
+                </th>
+                <th class="px-6 py-4 text-left text-sm font-bold text-white border-r border-white/30">
+                  Cargo
+                </th>
+                <th class="px-6 py-4 text-left text-sm font-bold text-white">
+                  Estado
+                </th>
+              </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+              <tr class="bg-white hover:bg-gray-50 transition-colors">
+                <!-- Concepto Input -->
+                <td class="px-6 py-4 border-r border-gray-200">
+                  <input
+                    type="text"
+                    id="concepto"
+                    name="concepto"
+                    [(ngModel)]="operacion.concepto"
+                    placeholder="Ej: 01005010"
+                    class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700"
+                    required
+                  />
+                </td>
+
+                <!-- Nombre Input -->
+                <td class="px-6 py-4 border-r border-gray-200">
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    [(ngModel)]="operacion.nombre"
+                    placeholder="Nombre del usuario"
+                    class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700"
+                    required
+                  />
+                </td>
+
+                <!-- Cargo Input -->
+                <td class="px-6 py-4 border-r border-gray-200">
+                  <input
+                    type="text"
+                    id="cargo"
+                    name="cargo"
+                    [(ngModel)]="operacion.cargo"
+                    placeholder="Ej: Yo lo digito"
+                    class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700"
+                    required
+                  />
+                </td>
+
+                <!-- Estado Select -->
+                <td class="px-6 py-4">
+                  <div class="relative">
+                    <select
+                      id="estado"
+                      name="estado"
+                      [(ngModel)]="operacion.estado"
+                      class="w-full px-3 py-2 pr-8 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none bg-white text-gray-700 appearance-none cursor-pointer"
+                      [class.border-orange-500]="operacion.estado"
+                      [class.bg-orange-50]="operacion.estado"
+                      required
+                    >
+                      <option value="" disabled selected>Seleccionar</option>
+                      <option value="operaciones">Operaciones</option>
+                      <option value="aprobado">Aprobado</option>
+                      <option value="saldo-a-favor">Saldo a favor</option>
+                      <option value="medidor">Medidor</option>
+                    </select>
+
+                    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                      <svg
+                        class="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Add More Button -->
+        <!-- <div class="mt-4 flex justify-end">
+          <button
+            type="button"
+            class="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-all shadow hover:shadow-md"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            Agregar fila
+          </button>
+        </div> -->
+
+        <!-- Summary Card -->
+        @if (operacion.concepto && operacion.nombre && operacion.cargo && operacion.estado) {
+        <div
+          class="mt-6 p-4 bg-linear-to-r from-blue-50 to-orange-50 rounded-lg border border-blue-200 animate-fade-in"
+        >
+          <p class="text-sm text-gray-600 mb-2 font-semibold">Resumen de la operación:</p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div>
+              <span class="font-medium text-blue-600">Concepto:</span>
+              <p class="text-gray-700">{{ operacion.concepto }}</p>
+            </div>
+            <div>
+              <span class="font-medium text-blue-600">Nombre:</span>
+              <p class="text-gray-700">{{ operacion.nombre }}</p>
+            </div>
+            <div>
+              <span class="font-medium text-blue-600">Cargo:</span>
+              <p class="text-gray-700">{{ operacion.cargo }}</p>
+            </div>
+            <div>
+              <span class="font-medium text-orange-600">Estado:</span>
+              <p class="text-gray-700">{{ operacion.estado }}</p>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex gap-4">
+          <button
+            type="button"
+            (click)="handleBack()"
+            class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md"
+          >
+            Volver
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="!isFormValid()"
+            class="flex-1 bg-linear-to-r from-blue-600 to-orange-500 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-orange-600 focus:ring-4 focus:ring-orange-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+</style>
