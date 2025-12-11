@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 
 import { Header } from "../../../shared/header/header";
 
+import { StoreService } from '../services/store.service';
+import { LecturaData } from '../interfaces/store.interface';
+
 @Component({
   selector: 'app-captura-lecturas',
   imports: [Header, FormsModule],
@@ -12,20 +15,21 @@ import { Header } from "../../../shared/header/header";
 export class CapturaLecturas {
 
   router = inject(Router);
+  storeService = inject(StoreService);
 
-  lectura = {
-    dia: null,
-    mes: null,
-    ano: null,
-    lecturaAnterior: 0, // Se obtendría del último registro
-    lecturaActual: null,
-    precio: null,
-    factorConversion: 6.997,
+  lectura: LecturaData = {
+    dia: '',
+    mes: '',
+    ano: '',
+    lecturaAnt: 0, // Se obtendría del último registro
+    lecturaActual: 0,
+    precio: 0,
+    factor: 6.997,
   };
 
   calcularConsumo(): number {
-    if (this.lectura.lecturaActual && this.lectura.lecturaAnterior) {
-      return this.lectura.lecturaActual - this.lectura.lecturaAnterior;
+    if (this.lectura.lecturaActual && this.lectura.lecturaAnt) {
+      return this.lectura.lecturaActual - this.lectura.lecturaAnt;
     }
     return 0;
   }
@@ -48,8 +52,8 @@ export class CapturaLecturas {
 
   generarRecibo() {
     if (this.isFormValid()) {
-      console.log('Guardando lectura:', this.lectura);
-      // Lógica para guardar
+      this.storeService.setLectura(this.lectura);
+      console.log(this.storeService.getRegistroCompleto());
     }
   }
 

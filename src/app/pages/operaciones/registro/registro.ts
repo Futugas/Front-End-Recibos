@@ -2,7 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Header } from "../../../shared/header/header";
+import { Header } from '../../../shared/header/header';
+
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-registro',
@@ -12,6 +14,7 @@ import { Header } from "../../../shared/header/header";
 export class Registro {
 
   router = inject(Router);
+  storeService = inject(StoreService);
 
   operacion = {
     concepto: '',
@@ -31,8 +34,8 @@ export class Registro {
 
   continuar(): void {
     if (this.isFormValid()) {
-      console.log('Operación guardada:', this.operacion);
       this.router.navigate(['/captura-lecturas']);
+      this.storeService.setOperacion(this.operacion);
     }
   }
 

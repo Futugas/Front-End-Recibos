@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 
 import { Header } from '../../../shared/header/header';
 
+import { StoreService } from '../services/store.service';
+
 interface Zone {
   id: number;
   nombre: string;
@@ -50,6 +52,7 @@ interface Area {
 export class ZonaArea implements OnInit {
 
   router = inject(Router);
+  storeService = inject(StoreService);
 
   selectedZonaId: number | null = null;
   selectedAreaId: number | null = null;
@@ -84,8 +87,7 @@ export class ZonaArea implements OnInit {
     const areaSeleccionada = this.areas.find(a => a.id == this.selectedAreaId);
 
     this.router.navigate(['/registro']);
-
-    console.log({ zonaSeleccionada, areaSeleccionada });
+    this.storeService.setZona({zona: zonaSeleccionada, area: areaSeleccionada});
   }
 
 }
