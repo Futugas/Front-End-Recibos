@@ -31,7 +31,7 @@
       </div>
 
       <!-- Form -->
-      <form (ngSubmit)="handleSubmit()">
+      <form (ngSubmit)="continuar()">
         <!-- Table -->
         <div class="overflow-x-auto rounded-lg border-2 border-gray-300 shadow-lg">
           <table class="w-full border-collapse">
@@ -185,7 +185,7 @@
         <div class="mt-8 flex gap-4">
           <button
             type="button"
-            (click)="handleBack()"
+            (click)="regresar()"
             class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md"
           >
             Volver

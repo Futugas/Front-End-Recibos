@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { Header } from "../../../shared/header/header";
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { Header } from "../../../shared/header/header";
 
 @Component({
   selector: 'app-captura-lecturas',
@@ -8,6 +10,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './captura-lecturas.html',
 })
 export class CapturaLecturas {
+
+  router = inject(Router);
 
   lectura = {
     dia: null,
@@ -42,25 +46,15 @@ export class CapturaLecturas {
     );
   }
 
-  handleGuardar() {
+  generarRecibo() {
     if (this.isFormValid()) {
       console.log('Guardando lectura:', this.lectura);
       // Lógica para guardar
     }
   }
 
-  handleModificar() {
-    console.log('Modificar lectura');
-    // Lógica para modificar
-  }
-
-  handleSalir() {
-    console.log('Salir');
-    // Lógica para salir
-  }
-
-  handleSubmit() {
-
+  regresar(): void {
+    this.router.navigate(['/registro']);
   }
 
 }

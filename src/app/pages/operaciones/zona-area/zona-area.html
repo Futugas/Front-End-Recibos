@@ -56,7 +56,7 @@
               id="zona"
               name="zona"
               [(ngModel)]="selectedZonaId"
-              (ngModelChange)="onZonaChange()"
+              (ngModelChange)="cambioZona($event)"
               class="w-full px-4 py-3 pr-10 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700 font-medium appearance-none cursor-pointer hover:border-blue-400"
               [class.border-blue-500]="selectedZonaId"
               [class.bg-blue-50]="selectedZonaId"
@@ -158,24 +158,10 @@
         </div>
       </div>
 
-      <!-- Selected Info -->
-      @if (selectedZonaId && selectedAreaId) {
-      <div
-        class="mt-6 p-4 bg-linear-to-r from-blue-50 to-orange-50 rounded-lg border border-blue-200 animate-fade-in"
-      >
-        <p class="text-sm text-gray-600 mb-1">Selección actual:</p>
-        <p class="font-semibold text-gray-800">
-          <span class="text-blue-600">{{ getSelectedZonaNombre() }}</span>
-          <span class="mx-2 text-gray-400">→</span>
-          <span class="text-orange-600">{{ getSelectedAreaNombre() }}</span>
-        </p>
-      </div>
-      }
-
       <!-- Continue Button -->
       <button
         type="button"
-        (click)="handleContinue()"
+        (click)="continuar()"
         [disabled]="!selectedZonaId || !selectedAreaId"
         class="mt-8 w-full bg-linear-to-r from-blue-600 to-orange-500 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-orange-600 focus:ring-4 focus:ring-orange-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
       >

@@ -1,7 +1,8 @@
 // area-selector.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Header } from '../../../shared/header/header';
 
@@ -48,6 +49,8 @@ interface Area {
 })
 export class ZonaArea implements OnInit {
 
+  router = inject(Router);
+
   selectedZonaId: number | null = null;
   selectedAreaId: number | null = null;
 
@@ -56,7 +59,6 @@ export class ZonaArea implements OnInit {
   areasFiltradas: Area[] = [];
 
   ngOnInit(): void {
-    // TODO: Cargar desde tu servicio
     this.zonas = [
       { id: 1, nombre: 'Poniente' },
       { id: 2, nombre: 'Norte' },
@@ -72,23 +74,18 @@ export class ZonaArea implements OnInit {
     ];
   }
 
-  onZonaChange(): void {
+  cambioZona(event: any): void {
     this.selectedAreaId = null;
-    this.areasFiltradas = this.areas.filter(
-      area => area.zonaId === this.selectedZonaId
-    );
+    this.areasFiltradas = this.areas.filter((f) => f.zonaId == event)
   }
 
-  getSelectedZonaNombre(): string {
-    return this.zonas.find(z => z.id === this.selectedZonaId)?.nombre || '';
-  }
+  continuar(): void {
+    const zonaSeleccionada = this.zonas.find(z => z.id == this.selectedZonaId);
+    const areaSeleccionada = this.areas.find(a => a.id == this.selectedAreaId);
 
-  getSelectedAreaNombre(): string {
-    return this.areasFiltradas.find(a => a.id === this.selectedAreaId)?.nombre || '';
-  }
+    this.router.navigate(['/registro']);
 
-  handleContinue(): void {
-    console.log('Zona:', this.selectedZonaId, 'Área:', this.selectedAreaId);
+    console.log({ zonaSeleccionada, areaSeleccionada });
   }
 
 }

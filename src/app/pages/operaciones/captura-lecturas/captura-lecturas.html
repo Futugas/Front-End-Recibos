@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-orange-500">
+<div class="min-h-screen bg-linear-to-br from-blue-600 via-blue-500 to-orange-500">
   <!-- Header -->
   <app-header />
 
@@ -10,7 +10,7 @@
       <!-- Title -->
       <div class="text-center mb-8">
         <div
-          class="w-20 h-20 bg-gradient-to-br from-blue-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg"
+          class="w-20 h-20 bg-linear-to-br from-blue-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg"
         >
           <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -23,7 +23,7 @@
         </div>
 
         <h1
-          class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-2"
+          class="text-3xl font-bold bg-linear-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-2"
         >
           Operaciones
         </h1>
@@ -31,12 +31,12 @@
       </div>
 
       <!-- Form -->
-      <form (ngSubmit)="handleSubmit()">
+      <form (ngSubmit)="generarRecibo()">
         <!-- Section Title -->
         <div class="mb-6">
           <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
             <span
-              class="bg-gradient-to-r from-blue-500 to-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm"
+              class="bg-linear-to-r from-blue-500 to-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm"
             >
               1
             </span>
@@ -193,34 +193,26 @@
         <div class="flex gap-4 justify-end">
           <button
             type="button"
-            (click)="handleGuardar()"
+            (click)="generarRecibo()"
             [disabled]="!isFormValid()"
-            class="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
+            class="px-8 py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
           >
-            Guardar
+            Generar Recibo
           </button>
 
           <button
             type="button"
-            (click)="handleModificar()"
-            class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 focus:ring-4 focus:ring-orange-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            (click)="regresar()"
+            class="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md"
           >
-            Modif
-          </button>
-
-          <button
-            type="button"
-            (click)="handleSalir()"
-            class="px-8 py-3 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-          >
-            Salir
+            Regresar
           </button>
         </div>
 
         <!-- Summary Card -->
         @if (isFormValid()) {
         <div
-          class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg border-2 border-blue-200 animate-fade-in"
+          class="mt-8 p-6 bg-linear-to-r from-blue-50 to-orange-50 rounded-lg border-2 border-blue-200 animate-fade-in"
         >
           <p class="text-sm text-gray-600 mb-3 font-semibold">Resumen de la lectura:</p>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
@@ -276,9 +268,5 @@
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-  }
-
-  input[type="number"] {
-    -moz-appearance: textfield;
   }
 </style>

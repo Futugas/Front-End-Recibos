@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { Header } from "../../../shared/header/header";
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { Header } from "../../../shared/header/header";
 
 @Component({
   selector: 'app-registro',
@@ -8,6 +10,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './registro.html',
 })
 export class Registro {
+
+  router = inject(Router);
 
   operacion = {
     concepto: '',
@@ -25,15 +29,15 @@ export class Registro {
     );
   }
 
-  handleSubmit() {
+  continuar(): void {
     if (this.isFormValid()) {
-      // Lógica para guardar
       console.log('Operación guardada:', this.operacion);
+      this.router.navigate(['/captura-lecturas']);
     }
   }
 
-  handleBack() {
-    // Lógica para volver a la pantalla anterior
+  regresar(): void {
+    this.router.navigate(['/zona-area']);
   }
 
 }
