@@ -1,5 +1,5 @@
 // area-selector.component.ts
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,87 +7,104 @@ import { Router } from '@angular/router';
 import { Header } from '../../../shared/header/header';
 
 import { StoreService } from '../services/store.service';
-
-interface Zone {
-  id: number;
-  nombre: string;
-}
-
-interface Area {
-  id: number;
-  nombre: string;
-  zonaId: number;
-}
+import { OperacionesService } from '../services/operaciones.service';
+import { Area, Zone } from '../interfaces/operaciones.interface';
 
 @Component({
   selector: 'app-area-selector',
   standalone: true,
   imports: [CommonModule, FormsModule, Header],
   templateUrl: './zona-area.html',
-  styles: [`
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-fade-in {
-      animation: fade-in 0.3s ease-out;
-    }
-
-    select {
-      background-image: none;
-    }
-
-    select:focus {
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-  `]
 })
 export class ZonaArea implements OnInit {
 
   router = inject(Router);
   storeService = inject(StoreService);
+  operacionesService = inject(OperacionesService);
+  cdr = inject(ChangeDetectorRef);
 
   selectedZonaId: number | null = null;
   selectedAreaId: number | null = null;
 
   zonas: Zone[] = [];
-  areas: Area[] = [];
   areasFiltradas: Area[] = [];
 
-  ngOnInit(): void {
-    this.zonas = [
-      { id: 1, nombre: 'Poniente' },
-      { id: 2, nombre: 'Norte' },
-      { id: 3, nombre: 'Centro' },
-      { id: 4, nombre: 'Oriente' }
-    ];
+  isLoadingZonas = false;
+  isLoadingAreas = false;
+  errorMessage: string | null = null;
 
-    this.areas = [
-      { id: 1, nombre: 'A-H', zonaId: 1 },
-      { id: 2, nombre: 'C1', zonaId: 2 },
-      { id: 3, nombre: 'B1', zonaId: 3 },
-      { id: 4, nombre: 'D1', zonaId: 4 }
-    ];
+  ngOnInit(): void {
+    this.cargarZonas();
+  }
+
+  cargarZonas(): void {
+    this.isLoadingZonas = true;
+    this.errorMessage = null;
+
+    this.operacionesService.obtenerZonas().subscribe({
+      next: (response) => {
+        this.zonas = response.data;
+        this.isLoadingZonas = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar zonas:', error);
+        this.errorMessage = 'Error al cargar las zonas';
+        this.isLoadingZonas = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   cambioZona(event: any): void {
     this.selectedAreaId = null;
-    this.areasFiltradas = this.areas.filter((f) => f.zonaId == event)
+    this.areasFiltradas = [];
+
+    if (!event) return;
+
+    this.isLoadingAreas = true;
+    this.errorMessage = null;
+
+    this.operacionesService.obtenerAreasPorZona(event).subscribe({
+      next: (response) => {
+        this.areasFiltradas = response.data;
+        this.isLoadingAreas = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar áreas:', error);
+        this.errorMessage = 'Error al cargar las áreas';
+        this.isLoadingAreas = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   continuar(): void {
-    const zonaSeleccionada = this.zonas.find(z => z.id == this.selectedZonaId);
-    const areaSeleccionada = this.areas.find(a => a.id == this.selectedAreaId);
+    if (!this.selectedZonaId || !this.selectedAreaId) {
+      this.errorMessage = 'Debe seleccionar una zona y un área';
+      return;
+    }
 
-    this.router.navigate(['/registro']);
-    this.storeService.setZona({zona: zonaSeleccionada, area: areaSeleccionada});
+    const zonaSeleccionada = this.zonas.find(z => z.id == this.selectedZonaId);
+    const areaSeleccionada = this.areasFiltradas.find(a => a.id == this.selectedAreaId);
+
+    console.log({
+      zona: zonaSeleccionada,
+      area: areaSeleccionada
+    });
+
+    if (zonaSeleccionada && areaSeleccionada) {
+      this.router.navigate(['/registro']);
+      this.storeService.setZona({
+        zona: zonaSeleccionada,
+        area: {
+          id: areaSeleccionada.id,
+          nombre: areaSeleccionada.nombre,
+          zonaId: areaSeleccionada.zona_id
+        }
+      });
+    }
   }
 
 }
