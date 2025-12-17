@@ -32,6 +32,7 @@ export class Registro implements OnInit {
   areaId: number = 0;
 
   clientes: Array<{ nombre: string; referencia: string }> = [];
+  buscarTermino: string = '';
 
   ngOnInit(): void {
     const datosZona = this.storeService.getZona();
@@ -45,6 +46,23 @@ export class Registro implements OnInit {
     this.areaId = datosZona.area.id;
 
     this.cargarClientes();
+  }
+
+  get clientesFiltrados() {
+    if (!this.buscarTermino) {
+      return this.clientes;
+    }
+
+    const search = this.buscarTermino.toLowerCase();
+
+    return this.clientes.filter(c =>
+      c.nombre.toLowerCase().includes(search) ||
+      c.referencia.toLowerCase().includes(search)
+    );
+  }
+
+  limpiarBusqueda(): void {
+    this.buscarTermino = '';
   }
 
   cargarClientes(): void {
