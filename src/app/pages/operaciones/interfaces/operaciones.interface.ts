@@ -9,6 +9,16 @@ export interface Area {
   zona_id: number;
 }
 
+export interface Cliente {
+  area_id: number;
+  codigo_postal: string;
+  direccion: string;
+  id: number;
+  nombre: string;
+  referencia: string;
+  zona_id: number;
+}
+
 export interface ApiResponse<T> {
   status: number;
   message: string;

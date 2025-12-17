@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
-import { ApiResponse, Area, Zone } from '../interfaces/operaciones.interface';
+import { ApiResponse, Area, Cliente, Zone } from '../interfaces/operaciones.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,12 @@ export class OperacionesService {
 
   obtenerAreasPorZona(zonaId: number): Observable<ApiResponse<Area[]>> {
     return this.http.get<ApiResponse<Area[]>>(`${this.url}/zonas/${zonaId}/areas`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  obtenerClientePorZonaArea(zonaId: number, areaId: number): Observable<ApiResponse<Cliente[]>> {
+    return this.http.get<ApiResponse<Cliente[]>>(`${this.url}/clientes/por-zona-area/${zonaId}/${areaId}`, {
       headers: this.getHeaders()
     });
   }
