@@ -40,4 +40,10 @@ export class OperacionesService {
     });
   }
 
+  actualizarCliente(cliente: Cliente): Observable<ApiResponse<any>> {
+    return this.http.put<ApiResponse<any>>(`${this.url}/clientes/${cliente.id}`, cliente, {
+      headers: this.getHeaders()
+    });
+  }
+
 }

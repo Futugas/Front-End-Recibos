@@ -8,6 +8,8 @@ import { Header } from '../../../shared/header/header';
 import { StoreService } from '../services/store.service';
 import { OperacionesService } from '../services/operaciones.service';
 
+import { Cliente } from '../interfaces/operaciones.interface';
+
 @Component({
   selector: 'app-registro',
   standalone: true,
@@ -28,11 +30,16 @@ export class Registro implements OnInit {
     estado: '',
   };
 
-  zonaId: number = 0;
-  areaId: number = 0;
+  zonaId = 0;
+  areaId = 0;
 
-  clientes: Array<{ nombre: string; referencia: string }> = [];
-  buscarTermino: string = '';
+  clientes: Cliente[] = [];
+  buscarTermino = '';
+
+  // 🔹 Modal
+  mostrarModal = false;
+  modalMensaje = '';
+  modalTipo: 'success' | 'error' = 'success';
 
   ngOnInit(): void {
     const datosZona = this.storeService.getZona();
@@ -49,20 +56,13 @@ export class Registro implements OnInit {
   }
 
   get clientesFiltrados() {
-    if (!this.buscarTermino) {
-      return this.clientes;
-    }
+    if (!this.buscarTermino) return this.clientes;
 
     const search = this.buscarTermino.toLowerCase();
-
     return this.clientes.filter(c =>
       c.nombre.toLowerCase().includes(search) ||
       c.referencia.toLowerCase().includes(search)
     );
-  }
-
-  limpiarBusqueda(): void {
-    this.buscarTermino = '';
   }
 
   cargarClientes(): void {
@@ -73,11 +73,36 @@ export class Registro implements OnInit {
           this.clientes = resp.data;
           this.cdr.detectChanges();
         },
-        error: (error) => {
-          console.error('Error al obtener clientes:', error);
-          this.cdr.detectChanges();
+        error: () => {
+          this.abrirModal('Error al obtener clientes', 'error');
         }
       });
+  }
+
+  limpiarBusqueda(): void {
+    this.buscarTermino = '';
+  }
+
+  guardarCliente(cliente: Cliente): void {
+    this.operacionesService.actualizarCliente(cliente).subscribe({
+      next: () => {
+        this.abrirModal('Cliente actualizado correctamente', 'success');
+      },
+      error: () => {
+        this.abrirModal('Error al actualizar el cliente', 'error');
+      }
+    });
+  }
+
+  abrirModal(mensaje: string, tipo: 'success' | 'error'): void {
+    this.modalMensaje = mensaje;
+    this.modalTipo = tipo;
+    this.mostrarModal = true;
+    this.cdr.detectChanges();
+  }
+
+  cerrarModal(): void {
+    this.mostrarModal = false;
   }
 
   isFormValid(): boolean {

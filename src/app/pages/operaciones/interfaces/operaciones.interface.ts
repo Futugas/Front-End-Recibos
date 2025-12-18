@@ -17,6 +17,8 @@ export interface Cliente {
   nombre: string;
   referencia: string;
   zona_id: number;
+  cargo: number;
+  estado: string;
 }
 
 export interface ApiResponse<T> {
