@@ -7,6 +7,15 @@
     <div
       class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-6xl border border-white/20"
     >
+      <button
+        type="button"
+        (click)="regresar()"
+        class="flex-1 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md flex items-center justify-center gap-2 py-5 px-5 cursor-pointer"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
       <!-- Title -->
       <div class="text-center mb-8">
         <div
@@ -48,7 +57,7 @@
           <button
             type="button"
             (click)="limpiarBusqueda()"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -63,8 +72,7 @@
         }
       </div>
 
-      <!-- Form -->
-      <form (ngSubmit)="continuar()">
+      <div>
         <!-- Table -->
         <div class="overflow-x-auto rounded-lg border-2 border-gray-300 shadow-lg">
           <table class="w-full border-collapse">
@@ -145,7 +153,7 @@
                   <button
                     type="button"
                     (click)="guardarCliente(cliente)"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 text-sm"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
@@ -175,26 +183,7 @@
             </tbody>
           </table>
         </div>
-
-        <!-- Action Buttons -->
-        <div class="mt-8 flex gap-4">
-          <button
-            type="button"
-            (click)="regresar()"
-            class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md"
-          >
-            Volver
-          </button>
-
-          <button
-            type="submit"
-            [disabled]="!isFormValid()"
-            class="flex-1 bg-linear-to-r from-blue-600 to-orange-500 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-orange-600 focus:ring-4 focus:ring-orange-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
-          >
-            Guardar
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -214,7 +203,7 @@
 
       <button
         (click)="cerrarModal()"
-        class="px-6 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+        class="px-6 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
       >
         Cerrar
       </button>

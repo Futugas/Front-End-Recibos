@@ -36,7 +36,6 @@ export class Registro implements OnInit {
   clientes: Cliente[] = [];
   buscarTermino = '';
 
-  // 🔹 Modal
   mostrarModal = false;
   modalMensaje = '';
   modalTipo: 'success' | 'error' = 'success';
@@ -112,13 +111,6 @@ export class Registro implements OnInit {
       this.operacion.cargo &&
       this.operacion.estado
     );
-  }
-
-  continuar(): void {
-    if (this.isFormValid()) {
-      this.storeService.setOperacion(this.operacion);
-      this.router.navigate(['/captura-lecturas']);
-    }
   }
 
   regresar(): void {
