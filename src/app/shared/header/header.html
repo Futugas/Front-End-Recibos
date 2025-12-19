@@ -17,45 +17,76 @@
         <h1 class="text-xl font-bold text-gray-800">Sistema de Operaciones</h1>
       </div>
 
-      <nav class="hidden md:flex items-center gap-6">
-        <a
-          href="#"
-          class="text-blue-600 font-semibold flex items-center gap-2 border-b-2 border-blue-600 pb-1"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-          Operaciones
-        </a>
-      </nav>
+      <nav class="hidden md:flex items-center gap-8">
+  <!-- Operaciones -->
+  <a
+    routerLink="/zona-area"
+    routerLinkActive="text-blue-600 border-blue-600"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="relative flex items-center gap-2 font-semibold text-gray-500
+           border-b-2 border-transparent pb-2
+           transition-all duration-300 hover:text-blue-600"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+      />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+      />
+    </svg>
+    Operaciones
+  </a>
+
+  <!-- Lecturas -->
+  <a
+    routerLink="/captura-lecturas"
+    routerLinkActive="text-blue-600 border-blue-600"
+    class="relative flex items-center gap-2 font-semibold text-gray-500
+           border-b-2 border-transparent pb-2
+           transition-all duration-300 hover:text-blue-600"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
+      />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 5a2 2 0 012-2h2a2 2 0 012 2"
+      />
+    </svg>
+    Lecturas
+  </a>
+</nav>
+
 
       <!-- User Menu -->
       <div class="flex items-center gap-4">
         @if (user) {
-          <div class="flex items-center gap-2 border-l pl-4">
-            <div
-              class="w-9 h-9 bg-linear-to-br from-blue-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold"
-            >
-              {{ user.nombre.charAt(0).toUpperCase() }}
-            </div>
-            <span class="text-sm font-medium text-gray-700 hidden lg:block">{{ user.nombre }}</span>
+        <div class="flex items-center gap-2 border-l pl-4">
+          <div
+            class="w-9 h-9 bg-linear-to-br from-blue-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold"
+          >
+            {{ user.nombre.charAt(0).toUpperCase() }}
           </div>
+          <span class="text-sm font-medium text-gray-700 hidden lg:block">{{ user.nombre }}</span>
+        </div>
         } @else {
-          <div class="flex items-center gap-2 border-l pl-4">
-            <div class="w-9 h-9 bg-gray-300 rounded-full animate-pulse"></div>
-            <div class="w-20 h-4 bg-gray-300 rounded animate-pulse hidden lg:block"></div>
-          </div>
+        <div class="flex items-center gap-2 border-l pl-4">
+          <div class="w-9 h-9 bg-gray-300 rounded-full animate-pulse"></div>
+          <div class="w-20 h-4 bg-gray-300 rounded animate-pulse hidden lg:block"></div>
+        </div>
         }
 
         <button
@@ -75,3 +106,4 @@
     </div>
   </div>
 </header>
+

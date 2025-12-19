@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 
 import { AuthService } from '../../pages/auth/services/auth.service';
 import { User } from '../../pages/auth/interfaces/login-response.interface';
@@ -8,7 +8,7 @@ import { User } from '../../pages/auth/interfaces/login-response.interface';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './header.html',
 })
 export class Header implements OnInit {
