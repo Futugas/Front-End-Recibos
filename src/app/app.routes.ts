@@ -26,7 +26,7 @@ export const routes: Routes = [
   {
     path: 'captura-lecturas',
     canActivate: [authGuard],
-    loadComponent: () => import('./pages/operaciones/captura-lecturas/captura-lecturas')
+    loadComponent: () => import('./pages/captura-lecturas/captura-lecturas')
       .then(m => m.CapturaLecturas),
     title: 'Captura de lecturas'
   },

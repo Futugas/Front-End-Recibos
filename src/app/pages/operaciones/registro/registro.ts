@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 import { Header } from '../../../shared/header/header';
 
-import { StoreService } from '../services/store.service';
-import { OperacionesService } from '../services/operaciones.service';
+import { Cliente } from '../../interfaces/operaciones.interface';
 
-import { Cliente } from '../interfaces/operaciones.interface';
+import { StoreService } from '../../services/store.service';
+import { OperacionesService } from '../../services/operaciones.service';
 
 @Component({
   selector: 'app-registro',

@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Header } from "../../../shared/header/header";
+import { Header } from "../../shared/header/header";
+
+import { LecturaData } from '../interfaces/store.interface';
 
 import { StoreService } from '../services/store.service';
-import { LecturaData } from '../interfaces/store.interface';
 
 @Component({
   selector: 'app-captura-lecturas',

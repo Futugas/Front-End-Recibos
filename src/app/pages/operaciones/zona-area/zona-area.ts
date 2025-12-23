@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 
 import { Header } from '../../../shared/header/header';
 
-import { StoreService } from '../services/store.service';
-import { OperacionesService } from '../services/operaciones.service';
-import { Area, Zone } from '../interfaces/operaciones.interface';
+import { StoreService } from '../../services/store.service';
+import { OperacionesService } from '../../services/operaciones.service';
+
+import { Area, Zone } from '../../interfaces/operaciones.interface';
 
 @Component({
   selector: 'app-area-selector',
