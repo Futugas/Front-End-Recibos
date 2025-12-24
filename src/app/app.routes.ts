@@ -24,9 +24,16 @@ export const routes: Routes = [
     title: 'Registro'
   },
   {
+    path: 'zona-area-edificio-depto',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/capturas/zona-area-edificio-depto/zona-area-edificio-depto')
+      .then(m => m.ZonaAreaEdificioDepto),
+    title: 'Zona - Área - Edificio - Depto'
+  },
+  {
     path: 'captura-lecturas',
     canActivate: [authGuard],
-    loadComponent: () => import('./pages/captura-lecturas/captura-lecturas')
+    loadComponent: () => import('./pages/capturas/captura-lecturas/captura-lecturas')
       .then(m => m.CapturaLecturas),
     title: 'Captura de lecturas'
   },

@@ -9,15 +9,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('token');
 
   const authReq = token
-    ? req.clone({
-        setHeaders: { Authorization: `Bearer ${token}` },
-      })
+    ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` }})
     : req;
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
         localStorage.removeItem('token');
+        alert('Sesion finalizada');
         router.navigate(['/inicio-sesion']);
       }
       return throwError(() => error);

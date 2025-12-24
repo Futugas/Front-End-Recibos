@@ -26,3 +26,15 @@ export interface ApiResponse<T> {
   message: string;
   data: T;
 }
+
+export interface Edificio {
+  id: number;
+  nombre: string;
+  area_id: number;
+}
+
+export interface Departamento {
+  id: number;
+  nombre: string;
+  edificio_id: number;
+}
