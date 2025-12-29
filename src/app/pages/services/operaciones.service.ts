@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
-
 import { environment } from '../../../environments/environment.development';
-
-import { ApiResponse, Area, Cliente, Zone } from '../interfaces/operaciones.interface';
+// Asegúrate de agregar Edificio y Departamento a tus interfaces
+import { ApiResponse, Area, Cliente, Zone, Edificio, Departamento } from '../interfaces/operaciones.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +33,32 @@ export class OperacionesService {
     });
   }
 
+  // --- NUEVOS MÉTODOS PARA LA CASCADA ---
+
+  obtenerEdificiosPorArea(areaId: number): Observable<ApiResponse<Edificio[]>> {
+    return this.http.get<ApiResponse<Edificio[]>>(`${this.url}/zonas/areas/${areaId}/edificios`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  obtenerDepartamentosPorEdificio(edificioId: number): Observable<ApiResponse<Departamento[]>> {
+    return this.http.get<ApiResponse<Departamento[]>>(`${this.url}/zonas/edificios/${edificioId}/departamentos`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // ---------------------------------------
+
+  // Actualizado para filtrar hasta el nivel de departamento si es necesario
   obtenerClientePorZonaArea(zonaId: number, areaId: number): Observable<ApiResponse<Cliente[]>> {
     return this.http.get<ApiResponse<Cliente[]>>(`${this.url}/clientes/por-zona-area/${zonaId}/${areaId}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // Nuevo método para obtener clientes específicos de un departamento
+  obtenerClientesPorDepartamento(deptoId: number): Observable<ApiResponse<Cliente[]>> {
+    return this.http.get<ApiResponse<Cliente[]>>(`${this.url}/clientes/buscar?depto_id=${deptoId}`, {
       headers: this.getHeaders()
     });
   }
@@ -45,6 +67,13 @@ export class OperacionesService {
     return this.http.put<ApiResponse<any>>(`${this.url}/clientes/${cliente.id}`, cliente, {
       headers: this.getHeaders()
     });
+  }
+
+  obtenerClientesJerarquiaCompleta(zId: number, aId: number, eId: number, dId: number): Observable<ApiResponse<Cliente[]>> {
+    return this.http.get<ApiResponse<Cliente[]>>(
+      `${this.url}/clientes/por-jerarquia-completa/${zId}/${aId}/${eId}/${dId}`,
+      { headers: this.getHeaders() }
+    );
   }
 
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -6,15 +6,15 @@ import { StoreService } from '../../services/store.service';
 import { OperacionesService } from '../../services/operaciones.service';
 
 import { Area, Zone, Edificio, Departamento } from '../../interfaces/operaciones.interface';
-
 import { Header } from "../../../shared/header/header";
 
 @Component({
   selector: 'app-zona-area-edificio-depto',
+  standalone: true,
   imports: [Header, FormsModule],
   templateUrl: './zona-area-edificio-depto.html',
 })
-export class ZonaAreaEdificioDepto {
+export class ZonaAreaEdificioDepto implements OnInit {
 
   router = inject(Router);
   storeService = inject(StoreService);
@@ -52,7 +52,6 @@ export class ZonaAreaEdificioDepto {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Error al cargar zonas:', error);
         this.errorMessage = 'Error al cargar las zonas';
         this.isLoadingZonas = false;
         this.cdr.detectChanges();
@@ -61,7 +60,7 @@ export class ZonaAreaEdificioDepto {
   }
 
   cambioZona(event: any): void {
-    // Resetear selecciones posteriores
+    const id = Number(event);
     this.selectedAreaId = null;
     this.selectedEdificioId = null;
     this.selectedDepartamentoId = null;
@@ -70,19 +69,16 @@ export class ZonaAreaEdificioDepto {
     this.edificiosFiltrados = [];
     this.departamentosFiltrados = [];
 
-    if (!event) return;
+    if (!id) return;
 
     this.isLoadingAreas = true;
-    this.errorMessage = null;
-
-    this.operacionesService.obtenerAreasPorZona(event).subscribe({
+    this.operacionesService.obtenerAreasPorZona(id).subscribe({
       next: (response) => {
         this.areasFiltradas = response.data;
         this.isLoadingAreas = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error('Error al cargar áreas:', error);
+      error: () => {
         this.errorMessage = 'Error al cargar las áreas';
         this.isLoadingAreas = false;
         this.cdr.detectChanges();
@@ -91,97 +87,79 @@ export class ZonaAreaEdificioDepto {
   }
 
   cambioArea(event: any): void {
-    // Resetear selecciones posteriores
+    const id = Number(event);
     this.selectedEdificioId = null;
     this.selectedDepartamentoId = null;
 
     this.edificiosFiltrados = [];
     this.departamentosFiltrados = [];
 
-    if (!event) return;
+    if (!id) return;
 
     this.isLoadingEdificios = true;
-    this.errorMessage = null;
-
-    // this.operacionesService.obtenerEdificiosPorArea(event).subscribe({
-    //   next: (response) => {
-    //     this.edificiosFiltrados = response.data;
-    //     this.isLoadingEdificios = false;
-    //     this.cdr.detectChanges();
-    //   },
-    //   error: (error) => {
-    //     console.error('Error al cargar edificios:', error);
-    //     this.errorMessage = 'Error al cargar los edificios';
-    //     this.isLoadingEdificios = false;
-    //     this.cdr.detectChanges();
-    //   }
-    // });
+    this.operacionesService.obtenerEdificiosPorArea(id).subscribe({
+      next: (response) => {
+        this.edificiosFiltrados = response.data;
+        this.isLoadingEdificios = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Error al cargar los edificios';
+        this.isLoadingEdificios = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   cambioEdificio(event: any): void {
-    // Resetear selección posterior
+    const id = Number(event);
     this.selectedDepartamentoId = null;
     this.departamentosFiltrados = [];
 
-    if (!event) return;
+    if (!id) return;
 
     this.isLoadingDepartamentos = true;
-    this.errorMessage = null;
-
-    // this.operacionesService.obtenerDepartamentosPorEdificio(event).subscribe({
-    //   next: (response) => {
-    //     this.departamentosFiltrados = response.data;
-    //     this.isLoadingDepartamentos = false;
-    //     this.cdr.detectChanges();
-    //   },
-    //   error: (error) => {
-    //     console.error('Error al cargar departamentos:', error);
-    //     this.errorMessage = 'Error al cargar los departamentos';
-    //     this.isLoadingDepartamentos = false;
-    //     this.cdr.detectChanges();
-    //   }
-    // });
+    this.operacionesService.obtenerDepartamentosPorEdificio(id).subscribe({
+      next: (response) => {
+        this.departamentosFiltrados = response.data;
+        this.isLoadingDepartamentos = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Error al cargar los departamentos';
+        this.isLoadingDepartamentos = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   continuar(): void {
     if (!this.selectedZonaId || !this.selectedAreaId || !this.selectedEdificioId || !this.selectedDepartamentoId) {
-      this.errorMessage = 'Debe completar todos los pasos';
+      this.errorMessage = 'Debe completar todos los pasos de selección';
       return;
     }
 
-    const zonaSeleccionada = this.zonas.find(z => z.id == this.selectedZonaId);
-    const areaSeleccionada = this.areasFiltradas.find(a => a.id == this.selectedAreaId);
-    const edificioSeleccionado = this.edificiosFiltrados.find(e => e.id == this.selectedEdificioId);
-    const departamentoSeleccionado = this.departamentosFiltrados.find(d => d.id == this.selectedDepartamentoId);
+    const zona = this.zonas.find(z => z.id == this.selectedZonaId);
+    const area = this.areasFiltradas.find(a => a.id == this.selectedAreaId);
+    const edificio = this.edificiosFiltrados.find(e => e.id == this.selectedEdificioId);
+    const depto = this.departamentosFiltrados.find(d => d.id == this.selectedDepartamentoId);
 
-    console.log({
-      zona: zonaSeleccionada,
-      area: areaSeleccionada,
-      edificio: edificioSeleccionado,
-      departamento: departamentoSeleccionado
+    console.log(zona, area, edificio, depto);
+    this.operacionesService.obtenerClientesJerarquiaCompleta(zona?.id!, area?.id!, edificio?.id!, depto?.id!).subscribe((res) => {
+      console.log('Respuesta', res);
     });
+    this.router.navigate(['/captura-lecturas']);
+    return;
 
-    if (zonaSeleccionada && areaSeleccionada && edificioSeleccionado && departamentoSeleccionado) {
-      this.router.navigate(['/registro']);
+    if (zona && area && edificio && depto) {
+      // Guardamos la selección completa en el Store
       this.storeService.setZona({
-        zona: zonaSeleccionada,
-        area: {
-          id: areaSeleccionada.id,
-          nombre: areaSeleccionada.nombre,
-          zonaId: areaSeleccionada.zona_id
-        },
-        // edificio: {
-        //   id: edificioSeleccionado.id,
-        //   nombre: edificioSeleccionado.nombre,
-        //   areaId: edificioSeleccionado.area_id
-        // },
-        // departamento: {
-        //   id: departamentoSeleccionado.id,
-        //   nombre: departamentoSeleccionado.nombre,
-        //   edificioId: departamentoSeleccionado.edificio_id
-        // }
+        zona: zona,
+        area: area,
+        edificio: edificio,
+        departamento: depto
       });
+
     }
   }
-
 }

@@ -10,15 +10,21 @@ export interface Area {
 }
 
 export interface Cliente {
-  area_id: number;
-  codigo_postal: string;
-  direccion: string;
   id: number;
-  nombre: string;
   referencia: string;
+  nombre: string;
+  direccion: string;
+  codigo_postal: string | null;
   zona_id: number;
+  area_id: number;
+  edificio_id: number;
+  departamento_id: number;
   cargo: number;
   estado: string;
+  lectura_anterior: number;
+  factor: number;
+  precio: number;
+  fecha: string;
 }
 
 export interface ApiResponse<T> {

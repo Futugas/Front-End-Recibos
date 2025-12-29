@@ -1,6 +1,8 @@
 export interface ZonaData {
   zona: any;
   area: any;
+  edificio?: any;
+  departamento?: any;
 }
 
 export interface OperacionData {
