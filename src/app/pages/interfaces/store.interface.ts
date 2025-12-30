@@ -13,6 +13,7 @@ export interface OperacionData {
 }
 
 export interface LecturaData {
+  id: number;
   dia: string;
   mes: string;
   ano: string;
@@ -20,4 +21,16 @@ export interface LecturaData {
   lecturaActual: number;
   precio: number;
   factor: number;
+}
+
+export interface LecturaTabla {
+  zonaId: number;
+  zona: string;
+  areaId: number;
+  area: string;
+  edificioId: number;
+  edificio: string;
+  departamentoId: number;
+  departamento: string;
+  lecturaAnterior: number;
 }

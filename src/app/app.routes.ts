@@ -31,6 +31,13 @@ export const routes: Routes = [
     title: 'Zona - Área - Edificio - Depto'
   },
   {
+    path: 'resultados-lecturas',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/capturas/resultados-lecturas/resultados-lecturas')
+      .then(m => m.ResultadosLecturas),
+    title: 'Resultados Lecturas'
+  },
+  {
     path: 'captura-lecturas',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/capturas/captura-lecturas/captura-lecturas')

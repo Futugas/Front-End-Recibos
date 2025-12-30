@@ -144,22 +144,33 @@ export class ZonaAreaEdificioDepto implements OnInit {
     const edificio = this.edificiosFiltrados.find(e => e.id == this.selectedEdificioId);
     const depto = this.departamentosFiltrados.find(d => d.id == this.selectedDepartamentoId);
 
-    console.log(zona, area, edificio, depto);
+    const fila = {
+      zonaId: zona?.id,
+      zona: zona?.nombre,
+      areaId: area?.id,
+      area: area?.nombre,
+      edificioId: edificio?.id,
+      edificio: edificio?.nombre,
+      departamentoId: depto?.id,
+      departamento: depto?.nombre
+    };
+
     this.operacionesService.obtenerClientesJerarquiaCompleta(zona?.id!, area?.id!, edificio?.id!, depto?.id!).subscribe((res) => {
-      console.log('Respuesta', res);
+      const registro = res.data.find(r =>
+        r.zona_id === fila.zonaId &&
+        r.area_id === fila.areaId &&
+        r.edificio_id === fila.edificioId &&
+        r.departamento_id === fila.departamentoId
+      );
+
+      const filaFinal = {
+        ...fila,
+        ...registro
+      };
+
+      this.storeService.setLecturaTabla(filaFinal);
+      this.router.navigate(['/resultados-lecturas']);
     });
-    this.router.navigate(['/captura-lecturas']);
-    return;
-
-    if (zona && area && edificio && depto) {
-      // Guardamos la selección completa en el Store
-      this.storeService.setZona({
-        zona: zona,
-        area: area,
-        edificio: edificio,
-        departamento: depto
-      });
-
-    }
   }
+
 }

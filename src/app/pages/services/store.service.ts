@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { LecturaData, OperacionData, ZonaData } from '../interfaces/store.interface';
+import { LecturaData, LecturaTabla, OperacionData, ZonaData } from '../interfaces/store.interface';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
@@ -8,6 +8,7 @@ export class StoreService {
   private zonaData: ZonaData | null = null;
   private operacionData: OperacionData | null = null;
   private lecturaData: LecturaData | null = null;
+  private lecturaTabla: any;
 
   setZona(data: ZonaData): void {
     this.zonaData = data;
@@ -15,6 +16,14 @@ export class StoreService {
 
   getZona(): ZonaData | null {
     return this.zonaData;
+  }
+
+  setLecturaTabla(data: any): void {
+    this.lecturaTabla = data;
+  }
+
+  getLecturaTabla(): any | null {
+    return this.lecturaTabla;
   }
 
   setOperacion(data: OperacionData): void {

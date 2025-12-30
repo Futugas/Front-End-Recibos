@@ -1,0 +1,168 @@
+<div class="min-h-screen bg-linear-to-br from-blue-600 via-blue-500 to-orange-500">
+  <!-- Header -->
+  <app-header />
+
+  <!-- Main Content -->
+  <div class="flex items-center justify-center p-4 py-12">
+    <div
+      class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-[95%] border border-white/20"
+    >
+      <button
+        type="button"
+        (click)="regresar()"
+        class="flex-1 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md flex items-center justify-center gap-2 py-3 px-4 cursor-pointer mb-4"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <!-- Title -->
+      <div class="text-center mb-8">
+        <div
+          class="w-20 h-20 bg-linear-to-br from-blue-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg"
+        >
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+            />
+          </svg>
+        </div>
+
+        <h1
+          class="text-3xl font-bold bg-linear-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-2"
+        >
+          Lecturas
+        </h1>
+        <p class="text-gray-600">Selecciona una lectura</p>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto rounded-lg border-2 border-gray-300 shadow-lg">
+        <table class="w-full border-collapse min-w-[1200px]">
+          <!-- Table Header -->
+          <thead>
+            <tr class="bg-linear-to-r from-blue-500 to-orange-500">
+              <th class="px-4 py-3 text-left text-xs font-bold text-white border-r border-white/30">
+                Zona
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-white border-r border-white/30">
+                Área
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-white border-r border-white/30">
+                Edificio
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-white border-r border-white/30">
+                Departamento
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-white border-r border-white/30">
+                Lectura anterior
+              </th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-white">Acciones</th>
+            </tr>
+          </thead>
+
+          <!-- Table Body -->
+          <tbody>
+            @for (cliente of datos; track cliente.id; let i = $index) {
+            <tr class="bg-white hover:bg-gray-50 transition-colors border-b border-gray-200">
+              <!-- Referencia (readonly) -->
+              <td class="px-4 py-3 border-r border-gray-200">
+                <input
+                  type="text"
+                  name="referencia-{{ i }}"
+                  [(ngModel)]="cliente.zona"
+                  readonly
+                  class="w-full px-2 py-1.5 border border-gray-300 rounded bg-gray-100 text-gray-700 text-sm cursor-not-allowed"
+                />
+              </td>
+
+              <!-- Nombre (readonly) -->
+              <td class="px-4 py-3 border-r border-gray-200">
+                <input
+                  type="text"
+                  name="nombre-{{ i }}"
+                  [(ngModel)]="cliente.area"
+                  readonly
+                  class="w-full px-2 py-1.5 border border-gray-300 rounded bg-gray-100 text-gray-700 text-sm cursor-not-allowed"
+                />
+              </td>
+
+              <!-- Dirección (readonly) -->
+              <td class="px-4 py-3 border-r border-gray-200">
+                <input
+                  type="text"
+                  name="direccion-{{ i }}"
+                  [(ngModel)]="cliente.edificio"
+                  readonly
+                  title="{{ cliente.edificio }}"
+                  class="w-full px-2 py-1.5 border border-gray-300 rounded bg-gray-100 text-gray-700 text-sm cursor-not-allowed truncate"
+                />
+              </td>
+
+              <!-- Lectura Anterior (readonly) -->
+              <td class="px-4 py-3 border-r border-gray-200">
+                <input
+                  type="number"
+                  name="lectura-anterior-{{ i }}"
+                  [(ngModel)]="cliente.departamento"
+                  readonly
+                  class="w-full px-2 py-1.5 border border-gray-300 rounded bg-gray-100 text-gray-700 text-sm cursor-not-allowed"
+                />
+              </td>
+
+              <!-- Factor (readonly) -->
+              <td class="px-4 py-3 border-r border-gray-200">
+                <input
+                  type="number"
+                  name="factor-{{ i }}"
+                  [(ngModel)]="cliente.lectura_anterior"
+                  readonly
+                  step="0.001"
+                  class="w-full px-2 py-1.5 border border-gray-300 rounded bg-gray-100 text-gray-700 text-sm cursor-not-allowed"
+                />
+              </td>
+
+              <!-- Acciones -->
+              <td class="px-4 py-3">
+                <button
+                  type="button"
+                  (click)="ver()"
+                  class="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow hover:shadow-lg flex items-center gap-2 text-xs cursor-pointer"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5
+                        c4.478 0 8.268 2.943 9.542 7
+                        -1.274 4.057-5.064 7-9.542 7
+                        -4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  Ver
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
