@@ -55,7 +55,6 @@
               min="1"
               max="31"
               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700 font-medium"
-              required
             />
           </div>
 
@@ -73,7 +72,6 @@
               min="1"
               max="12"
               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700 font-medium"
-              required
             />
           </div>
 
@@ -91,7 +89,6 @@
               min="2000"
               max="2100"
               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700 font-medium"
-              required
             />
           </div>
         </div>
@@ -108,7 +105,7 @@
                 type="number"
                 id="lecturaAnterior"
                 name="lecturaAnterior"
-                [(ngModel)]="lectura.lecturaAnt"
+                [(ngModel)]="lectura.lecturaAnterior"
                 placeholder="Lectura anterior"
                 class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-gray-100 text-gray-700 font-medium"
                 readonly
@@ -135,7 +132,6 @@
               (ngModelChange)="calcularPrecio()"
               placeholder="Lectura actual"
               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none bg-white text-gray-700 font-medium"
-              required
             />
           </div>
         </div>
@@ -155,7 +151,6 @@
               placeholder="0.00"
               step="0.01"
               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none bg-white text-gray-700 font-medium"
-              required
             />
           </div>
 
@@ -188,9 +183,16 @@
         <div class="flex gap-4 justify-end">
           <button
             type="button"
+            (click)="generarRecibo()"
+            class="px-8 py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50 cursor-pointer"
+          >
+            Generar recibo
+          </button>
+
+          <button
+            type="button"
             (click)="actualizar()"
-            [disabled]="!isFormValid()"
-            class="px-8 py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50"
+            class="px-8 py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:opacity-50 cursor-pointer"
           >
             Actualizar
           </button>
@@ -198,7 +200,7 @@
           <button
             type="button"
             (click)="regresar()"
-            class="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md"
+            class="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 transition-all duration-200 shadow hover:shadow-md cursor-pointer"
           >
             Regresar
           </button>

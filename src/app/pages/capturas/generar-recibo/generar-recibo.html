@@ -1,0 +1,333 @@
+<div class="min-h-screen bg-linear-to-br from-blue-600 via-blue-500 to-orange-500">
+  <app-header />
+
+  <div class="flex items-center justify-center p-4 py-12">
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-4xl border border-white/20">
+
+      <!-- Botón regresar -->
+      <button
+        type="button"
+        (click)="regresar()"
+        class="mb-6 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-all py-3 px-4 flex items-center gap-2 cursor-pointer"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      <!-- Título -->
+      <div class="text-center mb-8">
+        <div class="w-20 h-20 bg-linear-to-br from-blue-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold bg-linear-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent mb-2">
+          Generar Recibo PDF
+        </h1>
+        <p class="text-gray-600">Configura los datos del recibo antes de generar</p>
+      </div>
+
+      @if (cliente) {
+      <!-- Información del Cliente -->
+      <div class="bg-blue-50 rounded-lg p-6 mb-6 border-2 border-blue-200">
+        <h3 class="text-lg font-bold text-blue-900 mb-3 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          Datos del Cliente
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <span class="font-semibold text-gray-700">Nombre:</span>
+            <p class="text-gray-900">{{ cliente.nombre }}</p>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-700">Referencia:</span>
+            <p class="text-gray-900">{{ cliente.referencia }}</p>
+          </div>
+          <div class="md:col-span-2">
+            <span class="font-semibold text-gray-700">Dirección:</span>
+            <p class="text-gray-900">{{ cliente.direccion }}</p>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-700">Lectura Anterior:</span>
+            <p class="text-gray-900">{{ cliente.lectura_anterior }}</p>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-700">Factor:</span>
+            <p class="text-gray-900">{{ cliente.factor }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <form class="space-y-6">
+
+        <!-- Fechas -->
+        <div class="bg-orange-50 rounded-lg p-6 border-2 border-orange-200">
+          <h3 class="text-lg font-bold text-orange-900 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Fechas
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Fecha Límite de Pago -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Fecha Límite de Pago *
+              </label>
+              <input
+                type="date"
+                [(ngModel)]="fechaLimitePago"
+                name="fechaLimitePago"
+                required
+                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
+              />
+            </div>
+
+            <!-- Fecha Inicial -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Fecha Inicial *
+              </label>
+              <input
+                type="date"
+                [(ngModel)]="fechaInicial"
+                name="fechaInicial"
+                required
+                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
+              />
+            </div>
+
+            <!-- Fecha Final -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Fecha Final *
+              </label>
+              <input
+                type="date"
+                [(ngModel)]="fechaFinal"
+                name="fechaFinal"
+                required
+                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all outline-none"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Imagen del Medidor -->
+        <div class="bg-green-50 rounded-lg p-6 border-2 border-green-200">
+          <h3 class="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Imagen del Medidor
+          </h3>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Seleccionar Imagen
+              </label>
+              <input
+                type="file"
+                (change)="onImagenSeleccionada($event)"
+                accept="image/*"
+                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-600 file:text-white file:cursor-pointer hover:file:bg-green-700"
+              />
+            </div>
+
+            <!-- Preview de la imagen -->
+            @if (imagenMedidor) {
+            <div class="border-2 border-green-300 rounded-lg p-4 bg-white">
+              <p class="text-sm font-semibold text-gray-700 mb-2">Vista previa:</p>
+              <img [src]="imagenMedidor" alt="Medidor" class="max-w-full h-48 mx-auto object-contain rounded">
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Botón Generar PDF -->
+        <div class="flex justify-center pt-4">
+          <button
+            type="button"
+            (click)="generarPDF()"
+            [disabled]="generandoPDF"
+            class="px-8 py-4 bg-gradient-to-r from-blue-600 to-orange-500 text-white rounded-lg font-bold text-lg hover:shadow-2xl focus:ring-4 focus:ring-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3 cursor-pointer"
+          >
+            @if (generandoPDF) {
+            <svg class="animate-spin w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Generando...
+            } @else {
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Generar Recibo PDF
+            }
+          </button>
+        </div>
+      </form>
+      } @else {
+      <div class="text-center py-12">
+        <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p class="text-gray-600 text-lg">Cargando datos del cliente...</p>
+      </div>
+      }
+
+    </div>
+  </div>
+
+  <!-- Template del PDF (Oculto) -->
+  <div class="hidden">
+    <div id="recibo-content" class="bg-white p-8" style="width: 210mm; min-height: 297mm; font-family: Arial, sans-serif;">
+
+      @if (cliente) {
+      <!-- Logo y encabezado -->
+      <div class="text-center mb-6">
+        <div class="text-6xl font-bold mb-4" style="color: #1e3a8a;">
+          <img style="display: inline;" src="LOGO_FUTUGAS.jpg" alt="logo">
+        </div>
+
+        <div style="font-size: 13px; font-weight: bold; margin-bottom: 4px;">
+          FUTUGAS S.A. de C.V. R.F.C. FUT130124756
+        </div>
+        <div style="font-size: 11px;">
+          <strong>Av. Primero de Mayo No. 15 Oficina 1225 Piso 12 Col. San Andrés Atoto. CP 53500, Naucalpan de Juárez, Estado de México</strong>
+        </div>
+        <div style="font-size: 11px;">
+          <strong>TEL. 55 5868 6058 e-mail: </strong><span style="color: #2563eb;">futugas@yahoo.com</span>
+        </div>
+      </div>
+
+      <!-- Datos del cliente -->
+      <div style="margin-bottom: 16px; font-size: 13px;">
+        <div><strong>C. {{ cliente.nombre }}</strong></div>
+        <div><strong>{{ cliente.direccion }}</strong></div>
+      </div>
+
+      <!-- Fecha límite -->
+      <div style="text-align: right; margin-bottom: 16px; font-size: 13px;">
+        <strong>FECHA LÍMITE DE PAGO {{ formatearFechaDisplay(fechaLimitePago) }}</strong>
+      </div>
+
+      <!-- Tabla de banco -->
+      <table style="width: 100%; border: 2px solid black; margin-bottom: 24px; font-size: 13px; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #e5e7eb;">
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>BBVA</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>CLABE INTERBANCARIA</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>CONCEPTO</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border: 1px solid black; padding: 8px; text-align: center;"><strong>0199070354</strong></td>
+            <td style="border: 1px solid black; padding: 8px; text-align: center;"><strong>012180001990703544</strong></td>
+            <td style="border: 1px solid black; padding: 8px; text-align: center;"><strong>{{ cliente.referencia }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Periodo de consumo -->
+      <div style="background-color: #e5e7eb; padding: 8px; margin-bottom: 8px; text-align: center; font-size: 13px;">
+        <strong>PERIODO DE CONSUMO</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 13px;">
+        <div><strong>FECHA INICIAL {{ formatearFechaDisplay(fechaInicial) }}</strong></div>
+        <div><strong>FECHA FINAL {{ formatearFechaDisplay(fechaFinal) }}</strong></div>
+      </div>
+
+      <!-- Tabla de consumo -->
+      <table style="width: 100%; border: 2px solid black; margin-bottom: 24px; font-size: 10px; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f3f4f6;">
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>Lectura<br>Inicial</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>Lectura<br>Final</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>Consumo<br>M3</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>FACTOR DE<br>CONVERSION</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>CONSUMO<br>EN LTS.</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>PRECIO<br>POR<br>LITRO</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>IMPORTE</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>CARGOS</strong></th>
+            <th style="border: 1px solid black; padding: 8px; text-align: center;"><strong>TOTAL,<br>DEL<br>RECIBO</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>{{ lecturaInicial.toFixed(2) }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>{{ lecturaFinal.toFixed(2) }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>{{ consumoM3.toFixed(2) }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>{{ cliente.factor }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>{{ consumoLitros.toFixed(2) }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>${{ cliente.precio.toFixed(2) }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>${{ importe.toFixed(2) }}</strong></td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;">{{ cargo.toFixed(2) }}</td>
+            <td style="border: 1px solid black; padding: 12px; text-align: center;"><strong>${{ totalRecibo.toFixed(2) }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Imagen del medidor -->
+      @if (imagenMedidor) {
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="display: inline-block; border: 4px solid #d1d5db; padding: 8px;">
+          <img [src]="imagenMedidor" alt="Medidor" style="width: 320px; height: auto; margin: 0 auto;">
+        </div>
+      </div>
+      }
+
+      <!-- Instrucciones -->
+      <div style="font-size: 10px; margin-bottom: 16px;">
+        <p style="margin-bottom: 8px;">
+          <strong>Para reportes y aclaraciones ponemos a su disposición los tels. 55 5868 6058 y cel. 55 6914 0748.</strong>
+        </p>
+        <p style="margin-bottom: 8px;">
+          <strong>En caso de adeudos vencidos no aplica fecha límite de pago, pudiéndose efectuar la suspensión del servicio en cualquier momento.</strong>
+        </p>
+        <p style="margin-bottom: 16px;">
+          <strong>La reanudación del servicio en caso de suspensión será efectuada dentro de las 72 horas posteriores al envío del comprobante de pago y solicitud de reconexión por medio de WhatsApp. El cobro por reconexión es de $50.00 pesos. Horario de oficina de 9:00 a 16:00 horas, sábado de 9:00 a 14:00 horas.</strong>
+        </p>
+        <p style="text-align: center; background-color: #e5e7eb; padding: 8px;">
+          <strong>MÓDULO DE ATENCIÓN PERSONALIZADA Y PAGO DIRECTO "EN LAS OFNAS. DE LA ADMINISTRACIÓN" DE LA U.H.M. "TLALNEPANTLA", EL DIA 15 DE ENERO DEL 2026 DE LAS 11:00 A LAS 15:00 HRS., PRECIO MÁXIMO OFICIAL EN EL PERIODO, AUTORIZADO POR LA C.R.E. $10.61 PRECIO EN APOYO A LAS UU.HH.MM.: $10.50</strong>
+        </p>
+      </div>
+
+      <!-- Aviso de privacidad -->
+      <div style="text-align: center; font-size: 9px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #d1d5db;">
+        <p><em>Aviso de privacidad: todos sus datos personales serán utilizados con el único fin de proporcionarle el servicio solicitado y se encuentran protegidos, tal como se especifica en el contrato de servicio previamente establecido.</em></p>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+@if (mostrarModal) {
+  <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-xl text-center">
+      <h2
+        class="text-xl font-bold mb-4"
+        [class.text-green-600]="modalTipo === 'success'"
+        [class.text-red-600]="modalTipo === 'error'"
+      >
+        {{ modalTipo === 'success' ? 'Éxito' : 'Error' }}
+      </h2>
+
+      <p class="mb-6">{{ modalMensaje }}</p>
+
+      <button
+        (click)="cerrarModal()"
+        class="px-6 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+      >
+        Cerrar
+      </button>
+    </div>
+  </div>
+}

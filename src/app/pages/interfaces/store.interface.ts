@@ -17,7 +17,7 @@ export interface LecturaData {
   dia: string;
   mes: string;
   ano: string;
-  lecturaAnt: number;
+  lecturaAnterior: number;
   lecturaActual: number;
   precio: number;
   factor: number;

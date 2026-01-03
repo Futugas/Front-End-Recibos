@@ -45,6 +45,13 @@ export const routes: Routes = [
     title: 'Captura de lecturas'
   },
   {
+    path: 'generar-recibo',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/capturas/generar-recibo/generar-recibo')
+      .then(m => m.GenerarRecibo),
+    title: 'Generar recibo'
+  },
+  {
     path: '',
     redirectTo: '/inicio-sesion',
     pathMatch: 'full'

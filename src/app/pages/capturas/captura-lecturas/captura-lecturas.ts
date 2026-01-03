@@ -26,10 +26,10 @@ export class CapturaLecturas implements OnInit {
     dia: '',
     mes: '',
     ano: '',
-    lecturaAnt: 0,
+    lecturaAnterior: 0,
     lecturaActual: 0,
     precio: 0,
-    factor: 6.997,
+    factor: 0,
   };
 
   mostrarModal = false;
@@ -37,18 +37,24 @@ export class CapturaLecturas implements OnInit {
   modalTipo: 'success' | 'error' = 'success';
 
   data: any;
+  cargo: number = 0;
 
   ngOnInit(): void {
     this.data = this.storeService.getLecturaTabla();
-    console.log('Data', this.data)
 
-    this.lectura.lecturaAnt = this.data.lectura_anterior;
+    this.lectura.lecturaAnterior = this.data.lectura_anterior;
     this.lectura.factor = this.data.factor ?? 6.997;
+
+    this.operacionesService.obtenerClientePorId(this.data.id).subscribe({
+      next: (cliente) => {
+        this.cargo = cliente.data.cargo;
+      }
+    })
   }
 
   // calcularConsumo(): number {
-  //   if (this.lectura.lecturaActual && this.lectura.lecturaAnt) {
-  //     return this.lectura.lecturaActual - this.lectura.lecturaAnt;
+  //   if (this.lectura.lecturaActual && this.lectura.lecturaAnterior) {
+  //     return this.lectura.lecturaActual - this.lectura.lecturaAnterior;
   //   }
   //   return 0;
   // }
@@ -59,7 +65,7 @@ export class CapturaLecturas implements OnInit {
     // Lógica de cálculo de precio
   }
 
-  isFormValid(): boolean {
+  privateisFormValid(): boolean {
     return !!(
       this.lectura.dia &&
       this.lectura.mes &&
@@ -70,18 +76,34 @@ export class CapturaLecturas implements OnInit {
   }
 
   actualizar(): void {
-    if (!this.isFormValid()) return;
-
-    const payload = {
+    const payload: any = {
       id: this.data.id,
-      precio: this.lectura.precio,
-      fecha: `${this.lectura.ano}-${this.lectura.mes}-${this.lectura.dia}`,
-      lectura_actual: this.lectura.lecturaActual
     };
+
+    if (this.lectura?.precio != 0) {
+      payload.precio = Number(this.lectura.precio);
+    }
+
+    if (this.lectura?.ano && this.lectura?.mes && this.lectura?.dia) {
+      payload.fecha = `${this.lectura.ano}-${String(this.lectura.mes).padStart(2, '0')}-${String(this.lectura.dia).padStart(2, '0')}`;
+    }
+
+    if (this.lectura?.lecturaActual != null) {
+      payload.lectura_actual = Number(this.lectura.lecturaActual);
+    }
+
+    this.storeService.setLecturaTabla({
+      ...this.storeService.getLecturaTabla(),
+      cargo: this.cargo,
+      lectura_anterior: this.lectura.lecturaActual ?? this.storeService.getLecturaTabla()?.lectura_anterior,
+      precio: this.lectura.precio,
+    });
 
     this.operacionesService.actualizarCliente(payload).subscribe({
       next: () => {
-        this.abrirModal('Se actualizo el cliente correctamente', 'success');
+        localStorage.setItem('lectura', this.lectura.lecturaActual.toString());
+        localStorage.setItem('lecturaAnt', this.lectura.lecturaAnterior.toString());
+        this.abrirModal('Se actualizó el cliente correctamente', 'success');
       },
       error: err => {
         console.error(err);
@@ -89,6 +111,7 @@ export class CapturaLecturas implements OnInit {
       }
     });
   }
+
 
   regresar(): void {
     this.router.navigate(['/zona-area-edificio-depto']);
@@ -103,6 +126,10 @@ export class CapturaLecturas implements OnInit {
 
   cerrarModal(): void {
     this.mostrarModal = false;
+  }
+
+  generarRecibo(): void {
+    this.router.navigate(['/generar-recibo']);
   }
 
 }

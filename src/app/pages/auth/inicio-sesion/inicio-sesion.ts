@@ -31,9 +31,9 @@ export class InicioSesion {
     this.authService.login(this.usuario, this.contrasena).subscribe({
       next: (res): void => {
         if (res.status == 200) {
+          localStorage.setItem('usuario', JSON.stringify(res.data.user));
           this.isLoading = false;
           this.cdr.detectChanges();
-
           this.router.navigate(['/zona-area']);
         }
       },

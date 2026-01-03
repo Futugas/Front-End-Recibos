@@ -30,6 +30,7 @@ export class Header implements OnInit {
   }
 
   logout(): void {
+    localStorage.clear();
     this.authService.logout();
     this.router.navigate(['/inicio-sesion']);
   }

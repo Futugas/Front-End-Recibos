@@ -76,4 +76,11 @@ export class OperacionesService {
     );
   }
 
+  obtenerClientePorId(idCliente: number): Observable<ApiResponse<Cliente>> {
+    return this.http.get<ApiResponse<Cliente>>(
+      `${this.url}/clientes/${idCliente}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
 }
