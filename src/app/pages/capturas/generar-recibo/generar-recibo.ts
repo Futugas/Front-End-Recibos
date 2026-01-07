@@ -48,7 +48,6 @@ export class GenerarRecibo implements OnInit {
 
   ngOnInit(): void {
     this.cliente = this.storeService.getLecturaTabla();
-    console.log('CLIENTE', this.cliente);
 
     if (!this.cliente) {
       this.abrirModal('No se encontraron datos del cliente', 'error');

@@ -90,11 +90,6 @@ export class ZonaArea implements OnInit {
     const zonaSeleccionada = this.zonas.find(z => z.id == this.selectedZonaId);
     const areaSeleccionada = this.areasFiltradas.find(a => a.id == this.selectedAreaId);
 
-    console.log({
-      zona: zonaSeleccionada,
-      area: areaSeleccionada
-    });
-
     if (zonaSeleccionada && areaSeleccionada) {
       this.router.navigate(['/registro']);
       this.storeService.setZona({
